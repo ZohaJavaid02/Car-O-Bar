@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">   
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url(car.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        label{
+            color: #c10000;
+        }
+        .fixed-container {
+            background-color: #292929;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            background: transparent;
+            backdrop-filter: blur(10px);
+            width: 1200px; 
+            height: 700px; 
+            border: 1px solid #b1000000;
+            overflow-y:scroll; 
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 15px;
+            margin-bottom: auto;           
+        }
+        h1 {
+            text-align: center;
+            color: #fcfbfb;
+            font-family:'Courier New', Courier, monospace;
+            font-style: italic;
+        }
+        .filter-section {
+            margin-bottom: 20px;            
+        }
+        .car-card {
+            border: 1px solid #b10000;
+            margin: 10px;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #b10000;
+            transition: transform 0.3s;
+            margin-left: 100px;            
+        }
+        .car-card:hover {
+            transform: scale(1.05);
+        }
+        @media (max-width: 767px) {
+            .filter-section {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="fixed-container">
+    <h1 class="mb-4" style="color:#b10000 ;"><b>Car Suggestor</b></h1>     
+    <!-- Filters -->
+    <div class="row filter-section">
+        <div class="col-md-3">
+            <label for="brand">Brand:</label>
+            <select id="brand" class="form-control">
+                <option value="" style="color:#b10000 ;">Any</option>
+                <option value="toyota" style="color:#b10000 ;">Toyota</option>
+                <option value="honda" style="color:#b10000 ;">Honda</option>
+                <option value="ford" style="color:#b10000 ;">Ford</option>
+                <option value="bmw" style="color:#b10000 ;">BMW</option>>
+                <option value="tesla" style="color:#b10000 ;">Tesla</option>
+                <option value="nissan" style="color:#b10000 ;">Nissan</option>
+                <option value="mercedes" style="color:#b10000 ;">Mercedes-Benz</option>
+                <option value="hyundai" style="color:#b10000 ;">Hyundai</option>
+                <option value="audi" style="color:#b10000 ;">Audi</option>
+                <option value="volkswagen" style="color:#b10000 ;">Volkswagen</option>
+                <option value="lexus" style="color:#b10000 ;">Lexus</option>
+                <option value="gmc" style="color:#b10000 ;">GMC</option>
+                <option value="volvo" style="color:#b10000 ;">Volvo</option>
+                <option value="kia" style="color:#b10000 ;">Kia</option>
+                <option value="jaguar" style="color:#b10000 ;">Jaguar</option>
+                <option value="Mclaren" style="color:#b10000 ;">McLaren</option>
+                <option value="bugati" style="color:#b10000 ;">Bugatti</option>
+                <option value="ferrari" style="color:#b10000 ;">Ferrari</option>
+                <option value="lamborgini" style="color:#b10000 ;">Lamborghini</option>
+                <option value="rollsroyce" style="color:#b10000 ;">Rolls Royce</option>
+                <option value="pagani" style="color:#b10000 ;">Pagani</option>
+                <option value="landrover" style="color:#b10000 ;">Land Rover</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label for="model"  style="color:#b10000 ;">Model:</label>
+            <select id="model" class="form-control">
+                <option value="" style="color:#b10000 ;">Any</option>
+            </select>
+        </div>       
+        <div class="col-md-3">
+            <label for="fuelType" style="color:#b10000 ;">Fuel Type:</label>
+            <select id="fuelType" class="form-control">
+                <option value="" style="color:#b10000 ;">Any</option>
+                <option value="gasoline" style="color:#b10000 ;">Gasoline</option>
+                <option value="diesel" style="color:#b10000 ;">Diesel</option>
+                <option value="electric" style="color:#b10000 ;">Electric</option>
+                <option value="hybrid" style="color:#b10000 ;">Hybrid</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label for="price" style="color:#b10000 ;">Price Range (in Lakhs):</label>
+            <input type="range" id="price" class="form-control" min="0" max="4000" step="3" value="0">
+            <span id="priceLabel" style="color:#b10000 ;">₹0</span>
+        </div>
+    </div>
+    <div class="row" id="carResults">
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    const cars = [
+    
+        { brand: 'Toyota', model: 'Camry', price: 20.77, fuelType: 'Gasoline' },
+        { brand: 'Toyota', model: 'RAV4', price: 26.59, fuelType: 'Hybrid' },
+        { brand: 'Toyota', model: 'Highlander', price: 34.48, fuelType: 'Gasoline' },
+        { brand: 'Toyota', model: 'Glanza', price: 7.20, fuelType: 'Gasoline' },
+        { brand: 'Toyota', model: 'Urban Cruiser', price: 8.50, fuelType: 'Gasoline' },
+        { brand: 'Toyota', model: 'Yaris', price: 9.16, fuelType: 'Gasoline' },
+        { brand: 'Toyota', model: 'Fortuner', price: 30.34, fuelType: 'Diesel' },
+        { brand: 'Toyota', model: 'Vellfire', price: 83.50, fuelType: 'Gasoline' },
+        { brand: 'Toyota', model: 'Corolla Altis', price:15.88 , fuelType: 'Gasoline' },
+        { brand: 'Toyota', model: 'Land Cruiser', price: 147.89, fuelType: 'Diesel' },
+        { brand: 'Toyota', model: 'Land Cruiser Prado', price: 96.30, fuelType: 'Diesel' },
+
+        { brand: 'Ford', model: 'Explorer', price: 29.08, fuelType: 'Diesel' },
+        { brand: 'Ford', model: 'Mustang', price: 24.93, fuelType: 'Gasoline' },
+        { brand: 'Ford', model: 'Escape', price: 23.68, fuelType: 'Gasoline' },
+        { brand: 'Ford', model: 'F-150', price: 37.39, fuelType: 'Gasoline' },
+        { brand: 'Ford', model: 'Edge', price: 31.16, fuelType: 'Diesel' },
+        { brand: 'Ford', model: 'Maverick', price: 10.00, fuelType: 'Gasoline' },
+        { brand: 'Ford', model: 'Bronco', price: 20.00, fuelType: 'Gasoline' },
+        { brand: 'Ford', model: 'Transit', price: 12.59, fuelType: 'Diesel' },
+        { brand: 'Ford', model: 'Ranger', price: 15.27, fuelType: 'Diesel' },
+        { brand: 'Ford', model: 'Endeavour', price: 30.00, fuelType: 'Diesel' },
+        { brand: 'Ford', model: 'Ecosport', price: 8.19, fuelType: 'Diesel' },
+        { brand: 'Ford', model: 'Figo', price: 5.82, fuelType: 'Gasoline' },
+        { brand: 'Ford', model: 'Aspire', price: 7.24, fuelType: 'Diesel' },
+        { brand: 'Ford', model: 'Freestyle', price: 7.27, fuelType: 'Gasoline' },
+
+        { brand: 'Honda', model: 'Civic', price: 18.28, fuelType: 'Gasoline' },
+        { brand: 'Honda', model: 'CR-V', price: 28.27, fuelType: 'Gasoline' },
+        { brand: 'Honda', model: 'Accord', price: 23.27, fuelType: 'Hybrid' },
+        { brand: 'Honda', model: 'Amaze', price: 6.32, fuelType: 'Diesel' },
+        { brand: 'Honda', model: 'Jazz', price: 7.48, fuelType: 'Gasoline' },
+        { brand: 'Honda', model: 'WR-V', price: 8.79, fuelType: 'Diesel' },
+        { brand: 'Honda', model: 'City', price: 11.16, fuelType: 'Gasoline' },
+        { brand: 'Honda', model: 'HR-V', price: 14.00, fuelType: 'Diesel' },
+        { brand: 'Honda', model: 'Accord Hybrid', price: 44.28, fuelType: 'Hybrid' },
+        { brand: 'Honda', model: 'Brio', price: 5.00, fuelType: 'Gasoline' },
+        { brand: 'Honda', model: 'City Hatchback', price: 10.99, fuelType: 'Diesel' },
+
+        { brand: 'BMW', model: '3 Series', price: 43.60, fuelType: 'Electric' },
+        { brand: 'BMW', model: '5 Series', price: 63.40, fuelType: 'Hybrid' },
+        { brand: 'BMW', model: '7 Series', price: 138.58, fuelType: 'Diesel' },
+        { brand: 'BMW', model: '2 Series Gran Coupe', price: 37.90, fuelType: 'Diesel' },
+        { brand: 'BMW', model: 'X1', price:37.20 , fuelType: 'Gasoline' },
+        { brand: 'BMW', model: 'X3', price: 61.80, fuelType: 'Diesel' },
+        { brand: 'BMW', model: 'X4', price: 70.50, fuelType: 'Gasoline' },
+        { brand: 'BMW', model: 'X5', price: 75.50, fuelType: 'Diesel' },
+        { brand: 'BMW', model: 'X6', price: 96.90, fuelType: 'Hybrid' },
+        { brand: 'BMW', model: 'X7', price: 94.60, fuelType: 'Diesel' },
+
+        { brand: 'Tesla', model: 'Model 3', price: 60.41, fuelType: 'Electric' },
+        { brand: 'Tesla', model: 'Model Y', price: 70.00, fuelType: 'Electric' },
+        { brand: 'Tesla', model: 'Cybertruck', price: 60.25, fuelType: 'Electric' },
+        { brand: 'Tesla', model: 'Model S', price: 60.00, fuelType: 'Electric' },
+        { brand: 'Tesla', model: 'Model X', price: 100.00, fuelType: 'Electric' },
+
+        { brand: 'Nissan', model: 'Altima', price: 21.60, fuelType: 'Gasoline' },
+        { brand: 'Nissan', model: 'Murano', price: 25.34, fuelType: 'Gasoline' },
+        { brand: 'Nissan', model: 'Rogue', price: 24.10, fuelType: 'Hybrid' },
+        { brand: 'Nissan', model: 'Magnite', price: 5.59, fuelType: 'Gasoline' },
+        { brand: 'Nissan', model: 'Kicks', price: 9.50, fuelType: 'Diesel' },
+        { brand: 'Nissan', model: 'Sunny', price: 7.07, fuelType: 'Gasoline' },
+        { brand: 'Nissan', model: 'GT-R', price: 212.30, fuelType: 'Gasoline' },
+        { brand: 'Nissan', model: 'Patrol', price: 203.21, fuelType: 'Gasoline' },
+        { brand: 'Nissan', model: 'Terra', price: 20.00, fuelType: 'Diesel' },
+        { brand: 'Nissan', model: 'Navara', price: 25.00, fuelType: 'Diesel' },
+        { brand: 'Nissan', model: '370Z', price: 50.00, fuelType: 'Gasoline' },
+        { brand: 'Nissan', model: 'Note e-Power', price: 15.00, fuelType: 'Hybrid' },
+        { brand: 'Nissan', model: 'Serena e-Power', price: 25.00, fuelType: 'Hybrid' },
+
+        { brand: 'Mercedes-Benz', model: 'A-Class Limousine', price: 43.60, fuelType: 'Hybrid' },
+        { brand: 'Mercedes-Benz', model: 'C-Class', price: 42.00, fuelType: 'Diesel' },
+        { brand: 'Mercedes-Benz', model: 'GLC', price: 59.90, fuelType: 'Gasoline' },
+        { brand: 'Mercedes-Benz', model: 'E-Class', price: 63.60, fuelType: 'Diesel' },
+        { brand: 'Mercedes-Benz', model: 'S-Class', price: 157.30, fuelType: 'Hybrid' },
+        { brand: 'Mercedes-Benz', model: 'GLA', price: 43.00, fuelType: 'Gasoline' },
+        { brand: 'Mercedes-Benz', model: 'GLE', price: 77.90, fuelType: 'Diesel' },
+        { brand: 'Mercedes-Benz', model: 'GLS', price: 105.47, fuelType: 'Diesel' },
+        { brand: 'Mercedes-Benz', model: 'G-Class', price: 165.70, fuelType: 'Gasoline' },
+        { brand: 'Mercedes-Benz', model: 'EQC', price: 106.89, fuelType: 'Hybrid' },
+
+        { brand: 'Hyundai', model: 'Tucson', price: 22.57, fuelType: 'Hybrid' },
+        { brand: 'Hyundai', model: 'Santa Fe', price: 28.25, fuelType: 'Diesel' },
+        { brand: 'Hyundai', model: 'Kona', price: 23.79, fuelType: 'Electric' },
+        { brand: 'Hyundai', model: 'Santro', price: 4.79, fuelType: 'Gasoline' },
+        { brand: 'Hyundai', model: 'Greand i10 Nios', price: 5.19, fuelType: 'Hybrid' },
+        { brand: 'Hyundai', model: 'Aura', price: 5.92, fuelType: 'Hybrid' },
+        { brand: 'Hyundai', model: 'i20', price: 6.91, fuelType: 'Diesel' },
+        { brand: 'Hyundai', model: 'Venue', price: 6.99, fuelType: 'Gasoline' },
+        { brand: 'Hyundai', model: 'Verna', price: 9.21, fuelType: 'Hybrid' },
+        { brand: 'Hyundai', model: 'Creta', price: 10.16, fuelType: 'Diesel' },
+        { brand: 'Hyundai', model: 'Elantra', price: 17.87, fuelType: 'Hybrid' },
+
+        { brand: 'Audi', model: 'Q5', price: 60.43, fuelType: 'Gasoline' },
+        { brand: 'Audi', model: 'Q7', price: 80.97, fuelType: 'Hybrid' },
+        { brand: 'Audi', model: 'A4', price: 42.34, fuelType: 'Gasoline' },
+        { brand: 'Audi', model: 'A6', price: 57.08, fuelType: 'Hybrid' },
+        { brand: 'Audi', model: 'A8 L', price: 157.26, fuelType: 'Gasoline' },
+        { brand: 'Audi', model: 'Q2', price: 35.02, fuelType: 'Gasoline' },
+        { brand: 'Audi', model: 'Q3', price: 40.86, fuelType: 'Hybrid' },
+        { brand: 'Audi', model: 'Q8', price: 98.98, fuelType: 'Gasoline' },
+        { brand: 'Audi', model: 'e-tron', price: 119.11, fuelType: 'Electric' },
+        { brand: 'Audi', model: 'RS Q8', price: 207.07, fuelType: 'Gasoline' },
+
+        { brand: 'Volkswagen', model: 'Passat', price: 32.00, fuelType: 'Gasoline' },
+        { brand: 'Volkswagen', model: 'Taigun', price: 10.49, fuelType: 'Gasoline' },
+        { brand: 'Volkswagen', model: 'Polo', price: 6.18, fuelType: 'Hybrid' },
+        { brand: 'Volkswagen', model: 'Vento', price: 10.00, fuelType: 'Hybrid' },
+        { brand: 'Volkswagen', model: 'Tiguan Allspace', price: 34.84, fuelType: 'Gasoline' },
+        { brand: 'Volkswagen', model: 'T-Roc', price: 21.35, fuelType: 'Gasoline' },
+        { brand: 'Volkswagen', model: 'Virtus', price: 9.99, fuelType: 'Gasoline' },
+        { brand: 'Volkswagen', model: 'Teramont', price: 48.99, fuelType: 'Gasoline' },
+        { brand: 'Volkswagen', model: 'Amarock', price: 40.00, fuelType: 'Diesel' },
+        { brand: 'Volkswagen', model: 'Multivan', price: 60.00, fuelType: 'Diesel' },
+
+        { brand: 'Lexus', model: 'ES', price: 56.95, fuelType: 'Gasoline' },
+        { brand: 'Lexus', model: 'NX', price: 57.89, fuelType: 'Gasoline' },
+        { brand: 'Lexus', model: 'RX', price: 99.00, fuelType: 'Gasoline' },
+        { brand: 'Lexus', model: 'LS', price: 192.32, fuelType: 'Gasoline' },
+        { brand: 'Lexus', model: 'LX', price: 233.58, fuelType: 'Gasoline' },
+        { brand: 'Lexus', model: 'LC', price: 197.51, fuelType: 'Gasoline' },
+        { brand: 'Lexus', model: 'UX', price: 40.32, fuelType: 'Gasoline' },
+        { brand: 'Lexus', model: 'RC', price: 47.00, fuelType: 'Gasoline' },
+        { brand: 'Lexus', model: 'GX', price: 128.14, fuelType: 'Gasoline' },
+        { brand: 'Lexus', model: 'LM', price: 101.47, fuelType: 'Gasoline' },
+
+        { brand: 'GMC', model: 'Terrain', price: 21.60, fuelType: 'Gasoline' },
+        { brand: 'GMC', model: 'Acadia', price: 28.25, fuelType: 'Gasoline' },
+        { brand: 'GMC', model: 'Yukon', price: 43.21, fuelType: 'Gasoline' },
+        { brand: 'GMC', model: 'Yukon XL', price: 44.87, fuelType: 'Gasoline' },
+        { brand: 'GMC', model: 'Canyon', price: 22.43, fuelType: 'Diesel' },
+        { brand: 'GMC', model: 'Sierra 1500', price: 26.59, fuelType: 'Gasoline' },
+        { brand: 'GMC', model: 'Sierra HD', price: 33.24, fuelType: 'Diesel' },
+        { brand: 'GMC', model: 'Savana', price: 26.59, fuelType: 'Gasoline' },
+        { brand: 'GMC', model: 'Sierra Denail', price: 48.20, fuelType: 'Hybrid' },
+        { brand: 'GMC', model: 'Hummer EV', price: 65.65, fuelType: 'Electric' },
+
+        { brand: 'Volvo', model: 'S60', price: 45.90, fuelType: 'Gasoline' },
+        { brand: 'Volvo', model: 'XC90', price: 89.90, fuelType: 'Gasoline' },
+        { brand: 'Volvo', model: 'XC40', price: 42.90, fuelType: 'Gasoline' },
+        { brand: 'Volvo', model: 'XC60', price: 60.90, fuelType: 'Hybrid' },
+        { brand: 'Volvo', model: 'S90', price: 61.90, fuelType: 'Diesel' },
+        { brand: 'Volvo', model: 'V90 Cross Country', price: 65.31, fuelType: 'Diesel' },
+        { brand: 'Volvo', model: 'V60 Cross Country', price: 60.90, fuelType: 'Gasoline' },
+        { brand: 'Volvo', model: 'S60 Cross Country', price: 51.90, fuelType: 'Gasoline' },
+        { brand: 'Volvo', model: 'V40 Cross Country', price: 39.90, fuelType: 'Gasoline' },
+        { brand: 'Volvo', model: 'S90 Excellence', price: 147.27, fuelType: 'Gasoline' },
+
+        { brand: 'Kia', model: 'Sportage', price: 19.94, fuelType: 'Gasoline' },
+        { brand: 'Kia', model: 'Sonet', price: 6.79, fuelType: 'Hybrid' },
+        { brand: 'Kia', model: 'Seltos', price: 10.16, fuelType: 'Hybrid' },
+        { brand: 'Kia', model: 'Carnival', price: 24.95, fuelType: 'Diesel' },
+        { brand: 'Kia', model: 'Carens', price: 9.59, fuelType: 'Gasoline' },
+        { brand: 'Kia', model: 'EV6', price: 40.00, fuelType: 'Electric' },
+        { brand: 'Kia', model: 'Stinger', price: 60.00, fuelType: 'Gasoline' },
+        { brand: 'Kia', model: 'Soul EV', price: 25.00, fuelType: 'Electric' },
+        { brand: 'Kia', model: 'Rio', price: 7.00, fuelType: 'Gasoline' },
+        { brand: 'Kia', model: 'Niro', price: 25.00, fuelType: 'Hybrid' },
+        { brand: 'Kia', model: 'Optima', price: 20.00, fuelType: 'Hybrid' },
+
+        { brand: 'Jaguar', model: 'I-PACE', price: 57.34, fuelType: 'Electric' },
+        { brand: 'Jaguar', model: 'F-PACE', price: 44.04, fuelType: 'Diesel' },
+        { brand: 'Jaguar', model: 'XE', price: 34.07, fuelType: 'Diesel' },
+        { brand: 'Jaguar', model: 'XF', price: 42.38, fuelType: 'Diesel' },
+        { brand: 'Jaguar', model: 'XJ', price: 63.16, fuelType: 'Gasoline' },
+        { brand: 'Jaguar', model: 'F-Type', price: 50.69, fuelType: 'Gasoline' },
+        { brand: 'Jaguar', model: 'E-PACE', price: 34.90, fuelType: 'Diesel' },
+        { brand: 'Jaguar', model: 'XK', price: 70.64, fuelType: 'Gasoline' },
+        { brand: 'Jaguar', model: 'XKR', price: 74.79, fuelType: 'Gasoline' },
+        { brand: 'Jaguar', model: 'XKR-S', price: 83.10, fuelType: 'Gasoline' },
+
+        { brand: 'McLaren', model: '540C', price: 132.97, fuelType: 'Gasoline' },
+        { brand: 'McLaren', model: '570S', price: 166.21, fuelType: 'Gasoline' },
+        { brand: 'McLaren', model: 'GT', price: 174.52, fuelType: 'Gasoline' },
+        { brand: 'McLaren', model: '600LT', price: 199.45, fuelType: 'Gasoline' },
+        { brand: 'McLaren', model: '720S', price: 249.32, fuelType: 'Gasoline' },
+        { brand: 'McLaren', model: 'Speedtail', price: 1869.91, fuelType: 'Hybrid' },
+        { brand: 'McLaren', model: 'Artura', price: 186.99, fuelType: 'Hybrid' },
+        { brand: 'McLaren', model: '765LT', price: 311.65, fuelType: 'Gasoline' },
+        { brand: 'McLaren', model: 'Elva', price: 1412.82, fuelType: 'Gasoline' },
+        { brand: 'McLaren', model: 'P1', price: 955.73, fuelType: 'Hybrid' },
+
+        { brand: 'Bugatti', model: 'Chiron Sport', price: 2391.75, fuelType: 'Gasoline' },
+        { brand: 'Bugatti', model: 'Divo', price: 4512.75, fuelType: 'Gasoline' },
+        { brand: 'Bugatti', model: 'Centodieci', price: 7220.40, fuelType: 'Gasoline' },
+        { brand: 'Bugatti', model: 'La Voiture Noire', price: 9928.05, fuelType: 'Gasoline' },
+        { brand: 'Bugatti', model: 'Chiron Pur Sport', price: 2707.65, fuelType: 'Gasoline' },
+        { brand: 'Bugatti', model: 'Bolide', price: 3610.20, fuelType: 'Gasoline' },
+        { brand: 'Bugatti', model: 'Veyron', price: 1353.82, fuelType: 'Gasoline' },
+        { brand: 'Bugatti', model: 'EB110', price: 1805.10, fuelType: 'Gasoline' },
+
+        { brand: 'Ferrari', model: 'Portofino', price: 180.51, fuelType: 'Gasoline' },
+        { brand: 'Ferrari', model: 'Roma', price: 189.53, fuelType: 'Gasoline' },
+        { brand: 'Ferrari', model: 'SF90 Stradale', price: 361.02, fuelType: 'Hybrid' },
+        { brand: 'Ferrari', model: 'f8 Tributo', price: 225.63, fuelType: 'Gasoline' },
+        { brand: 'Ferrari', model: '812 Superfast', price: 288.81, fuelType: 'Gasoline' },
+        { brand: 'Ferrari', model: '488 Pista', price: 270.76, fuelType: 'Gasoline' },
+        { brand: 'Ferrari', model: 'GTC4 Lusso', price: 225.63, fuelType: 'Gasoline' },
+        { brand: 'Ferrari', model: 'Monza SP1', price: 1444.08, fuelType: 'Gasoline' },
+        { brand: 'Ferrari', model: 'Monza SP2', price: 1624.59, fuelType: 'Gasoline' },
+
+        { brand: 'Lamborghini', model: 'Huracan EVO', price: 185.02, fuelType: 'Gasoline' },
+        { brand: 'Lamborghini', model: 'Huracan STO', price: 224.73, fuelType: 'Gasoline' },
+        { brand: 'Lamborghini', model: 'Aventador LP 780', price: 361.02, fuelType: 'Gasoline' },
+        { brand: 'Lamborghini', model: 'Urus', price: 180.51, fuelType: 'Gasoline' },
+        { brand: 'Lamborghini', model: 'Aventador SVJ', price: 361.02, fuelType: 'Gasoline' },
+        { brand: 'Lamborghini', model: 'Gallardo', price: 144.40, fuelType: 'Gasoline' },
+
+        { brand: 'Rolls Royce', model: 'Ghost', price: 270.76, fuelType: 'Gasoline' },
+        { brand: 'Rolls Royce', model: 'Phantom', price: 406.14, fuelType: 'Gasoline' },
+        { brand: 'Rolls Royce', model: 'Cullinan', price: 315.89, fuelType: 'Gasoline' },
+        { brand: 'Rolls Royce', model: 'Dawn', price: 315.89, fuelType: 'Gasoline' },
+        { brand: 'Rolls Royce', model: 'Wraith', price: 288.81, fuelType: 'Gasoline' },
+        { brand: 'Rolls Royce', model: 'Ghost Extended', price: 297.84, fuelType: 'Gasoline' },
+        { brand: 'Rolls Royce', model: 'Phantom Extended', price: 496.40, fuelType: 'Gasoline' },
+        { brand: 'Rolls Royce', model: 'Cullinan Black Badge', price: 361.02, fuelType: 'Gasoline' },
+
+        { brand: 'Pagani', model: 'Huayra Roadster BC', price: 3158.92, fuelType: 'Gasoline' },
+        { brand: 'Pagani', model: 'Huayra BC', price: 2346.63, fuelType: 'Gasoline' },
+
+        { brand: 'Land Rover', model: 'Defender', price: 75.59, fuelType: 'Diesel' },
+        { brand: 'Land Rover', model: 'Discovery Sport', price: 65.30, fuelType: 'Diesel' },
+        { brand: 'Land Rover', model: 'Range Rover Evoque', price: 64.12, fuelType: 'Hybrid' },
+        { brand: 'Land Rover', model: 'Range Rover Velar', price: 81.52, fuelType: 'Hybrid' },
+        { brand: 'Land Rover', model: 'Discovery', price: 88.06, fuelType: 'Diesel' },
+        { brand: 'Land Rover', model: 'Range Rover Sport', price: 91.27, fuelType: 'Hybrid' },
+        { brand: 'Land Rover', model: 'Range Rover', price: 211.21, fuelType: 'Diesel' },
+        { brand: 'Land Rover', model: 'Range Rover Sport SVR', price: 229.81, fuelType: 'Gasoline' },
+        { brand: 'Land Rover', model: 'Range Rover Velar SVAutobiography Dynamic', price: 135.11, fuelType: 'Gasoline' },
+        { brand: 'Land Rover', model: 'Defender V8', price: 110.00, fuelType: 'Gasoline' },
+    ];
+    function filterCars() {
+        const brandFilter = document.getElementById('brand').value;
+        const modelFilter = document.getElementById('model').value;
+        const priceFilter = document.getElementById('price').value;
+        const fuelTypeFilter = document.getElementById('fuelType').value;
+        const filteredCars = cars.filter(car =>
+            (!brandFilter || car.brand.toLowerCase() === brandFilter.toLowerCase()) &&
+            (!modelFilter || car.model.toLowerCase() === modelFilter.toLowerCase()) &&
+            (car.price <= priceFilter) &&
+            (!fuelTypeFilter || car.fuelType.toLowerCase() === fuelTypeFilter.toLowerCase())
+        );
+        displayCars(filteredCars);
+    }
+    function displayCars(cars) {
+        const carResultsContainer = document.getElementById('carResults');
+        carResultsContainer.innerHTML = '';
+        cars.forEach(car => {
+            const carCard = document.createElement('div');
+            carCard.className = 'col-md-4 col-sm-6 car-card';
+            carCard.innerHTML = `
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">${car.brand} ${car.model}</h4>
+                        <p class="card-text">Price: ${car.price} lakhs</p>
+                        <p class="card-text">Fuel Type: ${car.fuelType}</p>
+                    </div>
+                </div>
+            `;
+            carResultsContainer.appendChild(carCard);
+        });
+    }
+    document.getElementById('brand').addEventListener('change', function () {
+        const selectedBrand = this.value;
+        const modelDropdown = document.getElementById('model');
+        modelDropdown.innerHTML = '<option value="">Any</option>';
+        if (selectedBrand) {
+            const modelsForBrand = [...new Set(cars.filter(car => car.brand.toLowerCase() === selectedBrand.toLowerCase()).map(car => car.model))];
+            modelsForBrand.forEach(model => {
+                const option = document.createElement('option');
+                option.value = model;
+                option.textContent = model;
+                modelDropdown.appendChild(option);
+            });
+        }
+        filterCars();
+    });
+    document.getElementById('price').addEventListener('input', function () {
+        document.getElementById('priceLabel').innerText = '₹' + this.value;
+        filterCars();
+    });
+    document.getElementById('model').addEventListener('change', filterCars);
+    document.getElementById('fuelType').addEventListener('change', filterCars);
+    displayCars(cars);
+</script>
+</body>
+</html>

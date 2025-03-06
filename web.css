@@ -1,0 +1,23 @@
+body {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    background-image: url("pexels-nina-uhlikova-725255.jpg"); 
+    background-size: cover;
+}
+
+h1{
+    font-size: 60px;
+    color: #000000;
+}
+
+.main-text {
+    font-size: 18px;
+    line-height: 1.5;
+}
+section{
+    font-size: 18px;
+    height: 200px;
+    margin-top: 20px;
+}

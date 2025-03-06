@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car'o'bar - Suggests you the best car...</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("zozo.jpg");
+            margin: 10px;
+            padding: 20px;
+            background-color:#9a0c0c63;
+            background-repeat: no-repeat;
+            background-size:cover;
+        }
+        #login{
+            align-items: center;
+        }
+
+        .brandname
+        {
+        color: rgb(255, 241, 241);
+        text-shadow: 1px 1px 2px rgb(190, 24, 24), 0 0 25px rgba(227, 60, 60, 0.886), 0 0 5px rgb(68, 142, 173);
+        }
+
+        #logoimg{
+            border: 20px solid transparent;
+            padding: 10px;
+        }
+        .tagline{
+            color: #df96b8f5;
+           font-size: 1em;
+           font-family: Open Sans, sans-serif;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(20, 2, 2, 0.1);
+            
+        }
+        .card1{
+            background-color: rgba(255, 0, 0, 0.747);
+            box-shadow: 4px 4px 4px 4px rgba(255, 0, 0, 0.909);
+            width:180px;
+            height:130px;
+            border-left: 150px;
+            border-radius: 200px;
+            text-align: center; 
+        }
+        .card1:hover {
+            background-color:transparent;
+            backdrop-filter: blur(500px);
+            color: rgb(92, 53, 53);
+            box-shadow: 0 4px 8px 0 rgba(226, 15, 0, 0.909);
+          }
+        .card {
+            background-color: rgba(7, 7, 7, 0.269);
+            box-shadow: 0 4px 8px 0 rgba(126, 120, 120, 0.909);
+            width:400px;
+            height:350px;
+            border-left: 150px;
+            border-radius: 20px;
+            text-align: center; 
+          }
+     
+        .card:hover {
+            background-color:transparent;
+            backdrop-filter: blur(500px);
+            color: rgb(201, 192, 192);
+            box-shadow: 0 4px 8px 0 rgba(139, 20, 12, 0.909);
+          }
+
+        label, input, button {
+            font-size: 16px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        .images{
+        position: relative;
+        }
+        *{
+          box-sizing: border-box;
+         }
+
+        .column {
+        float: left;
+        width: 33.33%;
+        padding: 5px;
+        }
+
+        .row::after {
+        content: "";
+        clear: both;
+        display: table;
+        }
+
+        a:link, a:visited {
+            background-color: #f44336;
+            color: white;
+            padding: 14px 25px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+          
+        a:hover, a:active {
+            background-color: red;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    <center>
+        <img class="card1" src="logo.png" width="180x" height="130px">
+    </center><br>
+    <main class="card" id="loginPage">
+        <table >
+            <tr>
+                <td><label for="id"> E-mail:</label></td>
+                <td><input type="email" id="id" required></td>
+            </tr>
+            <tr>
+                <td><label for="password">Password:</label></td>
+                <td><input type="password" id="password" required></td>
+            </tr>
+            <br>
+        </table>
+        <div>
+            <table>
+                <tr>
+                    <td><button onclick="fufu()">Sign Up</button></td>
+                </tr>
+                <tr>
+                    <td>Don't have account !</td>
+                    <button id="login" onclick="fun()" required>Login</button>
+                </tr>
+            </table>
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2024 Car'o'bar. Contact: info@carobar.com
+    </footer>
+</body>
+<script>
+    function fufu(){
+        window.location.assign("signup.html");
+    }
+    function fun(){
+        alert('Logged in Successfully!!');
+        window.location.assign("project.html");
+    }
+  </script>
+</html>

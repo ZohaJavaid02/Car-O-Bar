@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car'o'bar - Suggests you the best car...</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("zozo.jpg");
+            margin: 10px;
+            padding: 20px;
+            background-color:#9a0c0c63;
+            background-repeat: no-repeat;
+            background-size:cover;
+        }
+        #login{
+            align-items: center;
+        }
+
+        .brandname
+        {
+        color: rgb(255, 241, 241);
+        text-shadow: 1px 1px 2px rgb(190, 24, 24), 0 0 25px rgba(227, 60, 60, 0.886), 0 0 5px rgb(68, 142, 173);
+        }
+
+        #logoimg{
+            border: 20px solid transparent;
+            padding: 10px;
+        }
+        .tagline{
+            color: #df96b8f5;
+           font-size: 1em;
+           font-family: Open Sans, sans-serif;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(20, 2, 2, 0.1);
+            
+        }
+        .card1{
+            background-color: rgba(255, 0, 0, 0.747);
+            box-shadow: 4px 4px 4px 4px rgba(255, 0, 0, 0.909);
+            width:180px;
+            height:130px;
+            border-left: 150px;
+            border-radius: 200px;
+            text-align: center; 
+        }
+        .card1:hover {
+            background-color:transparent;
+            backdrop-filter: blur(500px);
+            color: rgb(92, 53, 53);
+            box-shadow: 0 4px 8px 0 rgba(226, 15, 0, 0.909);
+          }
+        .card {
+            background-color: rgba(7, 7, 7, 0.269);
+            box-shadow: 0 4px 8px 0 rgba(126, 120, 120, 0.909);
+            width:400px;
+            height:350px;
+            border-left: 150px;
+            border-radius: 20px;
+            text-align: center; 
+          }
+     
+        .card:hover {
+            background-color:transparent;
+            backdrop-filter: blur(500px);
+            color: rgb(201, 192, 192);
+            box-shadow: 0 4px 8px 0 rgba(139, 20, 12, 0.909);
+          }
+
+        label, input, button {
+            font-size: 16px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        .images{
+        position: relative;
+        }
+        *{
+          box-sizing: border-box;
+         }
+
+        .column {
+        float: left;
+        width: 33.33%;
+        padding: 5px;
+        }
+
+        .row::after {
+        content: "";
+        clear: both;
+        display: table;
+        }
+
+        a:link, a:visited {
+            background-color: #f44336;
+            color: white;
+            padding: 14px 25px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+          
+        a:hover, a:active {
+            background-color: red;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    <center>
+        <img class="card1" src="logo.png" width="180x" height="130px">
+    </center><br>
+    <main class="card" id="loginPage">
+        <table >
+            <right>
+            <tr>
+                <td><label for="username">Username:</label></td>
+                <td><input type="text" id="username" required></td>
+            </tr>
+            <tr>
+                <td><label for="id"> E-mail:</label></td>
+                <td><input type="email" id="id" required></td>
+            </tr>
+            <tr>
+                <td><label for="password">Password:</label></td>
+                <td><input type="password" id="password" required></td>
+            </tr>
+            <br>
+            <tr>
+                <td><button type="submit" id="signup" onclick="fun()">Sign Up</button></td>
+            </tr>
+           <right>
+        </table>
+    </main>
+
+    <footer>
+        &copy; 2024 Car'o'bar. Contact: info@carobar.com
+    </footer>
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-analytics.js";
+    import { getDatabase, set, ref, update } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
+    import { getAuth, createUserWithEmailAndPassword, /*signInWithEmailAndPassword, onAuthStateChanged*/ } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyALElPEa_g237JA9jVfgRC14Z7DiLA1_AA",
+      authDomain: "car-o-bar-60719.firebaseapp.com",
+      databaseURL: "https://car-o-bar-60719-default-rtdb.firebaseio.com",
+      projectId: "car-o-bar-60719",
+      storageBucket: "car-o-bar-60719.appspot.com",
+      messagingSenderId: "791495420246",
+      appId: "1:791495420246:web:5c2e6ec484f3c424334ef7",
+      measurementId: "G-TRC5QBYMSV"
+    };
+    
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const database=getDatabase(app);
+    const auth = getAuth();
+
+    signup.addEventListener('click',(e)=> {
+        var email=document.getElementById('id').value;
+        var username=document.getElementById('username').value;
+        var password=document.getElementById('password').value;
+        createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+        // Signed up 
+       const user = userCredential.user;
+       
+       set(ref(database,'user/' + user.uid),{
+        username: username,
+        email:email
+       })
+       alert('user created!');
+        })
+       .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert('User exists already!');
+        alert(errorMessage);
+        });
+    });
+
+    function fun(){
+        alert('Signed Up Successfully!!');
+        window.location.assign("login.html");
+    }
+  </script>
+</html>
